@@ -1,0 +1,81 @@
+version: '3.8'
+
+networks:
+    test_net:
+        driver: bridge
+        
+services:
+# Application
+  web:
+    image: ex-currency
+    ports:
+      - '9090:9090'
+    networks:
+      - test_net
+    environment:
+      REDIS_URL : redis
+      REDIS_PORT : 6379
+      DB_URL : db
+      DB_PORT : 3306
+      DB_USERNAME : root
+      DB_PASSWORD : root
+    links:
+       - db
+       - redis
+       - fluentd
+    depends_on:
+       - db
+       - redis 
+       - fluentd
+    logging:
+      driver: fluentd
+      options:
+        fluentd-address: localhost:24224
+        fluentd-async-connect: "true"
+        tag: docker  
+## Mysql
+  db:
+    image: mysql:8.0
+    cap_add:
+      - SYS_NICE
+    restart: always
+    environment:
+      - MYSQL_DATABASE=dating
+      - MYSQL_ROOT_PASSWORD=root
+    ports:
+      - '3306:3306'
+    volumes:
+      - db:/var/lib/mysql
+      - ./db/init.sql:/docker-entrypoint-initdb.d/init.sql
+    networks:
+      - test_net
+# Redis
+  redis:
+    image: docker.io/bitnami/redis:6.2
+    environment:
+      - ALLOW_EMPTY_PASSWORD=yes
+      - REDIS_DISABLE_COMMANDS=FLUSHDB,FLUSHALL
+    ports:
+      - '6379:6379'
+    volumes:
+      - 'redis_data:/bitnami/redis/data'
+    networks:
+      - test_net
+
+# fluentd       
+  fluentd:
+    build: ./fluentd
+    container_name: fluentd
+    volumes:
+      - ./fluentd/:/fluentd/etc
+    ports:
+      - 24224:24224
+    networks:
+      - test_net
+volumes:
+   redis_data:
+      driver: local   
+   db:
+      driver: local
+
+ 

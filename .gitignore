@@ -1,0 +1,16 @@
+**/target/*
+**/.project
+**/.classpath
+**/.settings
+**/.idea
+**/logs/*
+**/*.iml
+**/.metadata
+*.rej
+*.jsfdia
+rebel.xml
+rebel-remote.xml
+*.ipr
+*.iws
+*.classpath
+/target/
