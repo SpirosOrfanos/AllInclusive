@@ -1,25 +1,20 @@
 package com.products;
 
 import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
 import java.math.BigDecimal;
-import java.util.*;
-import javax.persistence.EntityManager;
-import javax.validation.ConstraintViolationException;
+import java.util.List;
+import java.util.Optional;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.dao.DataIntegrityViolationException;
 import com.products.domain.Product;
 import com.products.domain.ProductDetails;
 import com.products.domain.Smoothe;
 import com.products.repository.ProductDetailsRepository;
 import com.products.repository.ProductRepository;
-import com.products.repository.SmootheRepository;
 
 @Tag("ProductRepositoryTest")  
 @DataJpaTest
@@ -32,8 +27,6 @@ public class ProductDetailsRepositoryTest {
   @Qualifier("productDetailsRepository")
   @Autowired
   ProductDetailsRepository productDetailsRepository;
-  
-
   
   @Test
   public void testSaveProductWithDetails() {

@@ -63,20 +63,20 @@ public class OrderRepositoryTest {
         .collect(Collectors.toList());
 
     products.stream().filter(v -> v.getDescription().equals("Hazelnut")).findFirst()
-        .ifPresent(product -> {
+        .ifPresent(product -> 
           order.getOrderItems()
               .add(new OrderItem.Builder().setPrice(product.getPrice()).setQuantity(2L)
                   .setProductId(product.getId()).setProductDescription(product.getDescription())
-                  .build());
-        });
+                  .build())
+        );
     
     products.stream().filter(v -> v.getDescription().equals("Strawberry")).findFirst()
-    .ifPresent(product -> {
+    .ifPresent(product -> 
       order.getOrderItems()
           .add(new OrderItem.Builder().setPrice(product.getPrice()).setQuantity(2L)
               .setProductId(product.getId()).setProductDescription(product.getDescription())
-              .build());
-    });
+              .build())
+    );
 
     Orders persisted = orderRepository.save(order);
     OrderItem oi = persisted.getOrderItems().get(0);

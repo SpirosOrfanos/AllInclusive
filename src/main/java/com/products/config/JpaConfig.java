@@ -1,9 +1,7 @@
 package com.products.config;
 
 import java.util.Properties;
-
 import javax.sql.DataSource;
-
 import org.hibernate.jpa.HibernatePersistenceProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
@@ -12,14 +10,12 @@ import org.springframework.boot.autoconfigure.orm.jpa.HibernateJpaAutoConfigurat
 import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 import org.springframework.transaction.PlatformTransactionManager;
-import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 @Configuration
 @EnableAutoConfiguration(
@@ -57,8 +53,7 @@ public class JpaConfig {
   }
 
   private HibernateJpaVendorAdapter vendorAdaptor() {
-    HibernateJpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter();
-    return vendorAdapter;
+    return new HibernateJpaVendorAdapter();
   }
 
   @Bean(name = "entityManagerFactory")
@@ -69,7 +64,7 @@ public class JpaConfig {
     entityManagerFactoryBean.setJpaVendorAdapter(vendorAdaptor());
     entityManagerFactoryBean.setDataSource(dataSource());
     entityManagerFactoryBean.setPersistenceProviderClass(HibernatePersistenceProvider.class);
-    entityManagerFactoryBean.setPackagesToScan(new String[] {"com.products.domain"});
+    entityManagerFactoryBean.setPackagesToScan("com.products.domain");
     entityManagerFactoryBean.setJpaProperties(addProperties());
 
     return entityManagerFactoryBean;
@@ -77,12 +72,9 @@ public class JpaConfig {
   
   private Properties addProperties() {
     Properties properties = new Properties();
-    //properties.setProperty("hibernate.hbm2ddl.auto", env.getProperty("spring.jpa.hibernate.ddl-auto"));
     properties.setProperty("hibernate.dialect", 
         env.getProperty("spring.jpa.properties.hibernate.dialect"));
-    //properties.setProperty("hibernate.show_sql", env.getProperty("spring.jpa.show-sql"));
-   // properties.setProperty("hibernate.format_sql", env.getProperty("spring.jpa.properties.hibernate.format_sql"));
-    // we can add 
+
     return properties;
 }
 

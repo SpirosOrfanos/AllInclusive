@@ -7,7 +7,7 @@ This APP handleS CRUD (Create-Read-Update-Delete) of a smoothies catalog
 ### How to test
 You may use a rest client (e.g. Insomnia) and/or check the expose API on the following URL 
 
-[swagger-ui](http://localhost:9090/swagger-ui.html#)
+[swagger 2.0](http://localhost:9090/v2/api-docs)
 
 Provided that app is up and running
 
@@ -18,16 +18,6 @@ After mvn clean package a folder is created under
 
 Sited there you will find the [Jacoco](https://www.eclemma.org/jacoco/) code coverage report (index.html)
 
-### Stress test
-
-Check gatling folder for a stress test results
-
-### Improvements
-
-1) Stress/Load test
-
-
-Exception handling, caching strategy, API calls safeguard
 
 
 # Dockerized
@@ -49,6 +39,12 @@ Exception handling, caching strategy, API calls safeguard
 * docker: The whole solution is "grouped" as images that can be started with docker-compose
 
 * Maven: In order to build app
+
+## DB 
+
+App has data some smoothe items along with their details in dockerized image.
+
+In case you need to test to another MySql DB check create.sql under db folder.
 
 ### How to build
 
@@ -103,3 +99,16 @@ Now, hit Discover in the left hand navigation menu.
 You should see a histogram graph and some recent log entries:
 
 ![plot](./kibana_logs.png)
+
+
+## Improvements
+
+* Api definition
+
+* Stress/Load test
+
+* Exception handling
+
+* caching strategy
+
+* API calls safeguard with anither tool like keycloak

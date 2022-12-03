@@ -43,6 +43,7 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
   
   @ExceptionHandler(ConversionFailedException.class)
   public ResponseEntity<ApiError> handleConflict(RuntimeException ex) {
+    System.out.println("CONVERSION_FAILED_ERROR");
     return buildResponseEntity(ApiErrorEnum.CONVERSION_FAILED_ERROR.create());
   }
 

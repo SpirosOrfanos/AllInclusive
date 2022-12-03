@@ -1,5 +1,6 @@
 package com.products.repository;
 
+import java.util.List;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.PagingAndSortingRepository;
@@ -12,4 +13,8 @@ public interface ProductDetailsRepository extends PagingAndSortingRepository<Pro
   @Modifying
   @Query(value = "DELETE FROM product_details t WHERE t.id = ?1", nativeQuery = true)
   void deleteById(Long id);
+  
+  @Modifying
+  @Query(value = "select * FROM product_details t WHERE t.product_id = ?1", nativeQuery = true)
+  List<ProductDetails> getAllForProduct(Long id);
 }

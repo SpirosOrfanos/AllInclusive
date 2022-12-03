@@ -37,7 +37,7 @@ public enum ApiErrorEnum {
   },
   
   
-  CONVERSION_FAILED_ERROR("Api conversion error",HttpStatus.PAYMENT_REQUIRED, "1-0003"){
+  CONVERSION_FAILED_ERROR("Api conversion error",HttpStatus.BAD_REQUEST, "1-0003"){
     @Override
     public ApiError create() {
       return new ApiError(this.getDesc(), this.getHttpCode(), this.getCode());

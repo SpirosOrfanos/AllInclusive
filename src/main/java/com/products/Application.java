@@ -10,7 +10,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 @SpringBootApplication(exclude={DataSourceAutoConfiguration.class,
     SqlInitializationAutoConfiguration.class})
-//@EnableCaching
+@EnableCaching
 @EnableTransactionManagement
 public class Application {
   public static void main(String[] args) {

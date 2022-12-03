@@ -3,12 +3,10 @@ package com.products.service.dao;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
-
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
-import com.products.domain.Product;
 import com.products.domain.ProductDetails;
 import com.products.exception.NoItemFoundException;
 import com.products.repository.ProductDetailsRepository;
@@ -58,6 +56,10 @@ public class ProductDetailsDaoService implements DaoService<ProductDetails, Long
   public ProductDetails get(Long key) {
     return productDetailsRepository.findById(key)
         .orElseThrow(() -> new NoItemFoundException("No Product Details found"));
+  }
+  
+  public List<ProductDetails> getAll(Long id) {
+    return productDetailsRepository.getAllForProduct(id);
   }
 
 }

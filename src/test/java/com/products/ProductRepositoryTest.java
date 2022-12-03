@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.data.domain.PageRequest;
 import com.products.domain.Product;
 import com.products.domain.ProductDetails;
 import com.products.domain.Smoothe;
@@ -28,10 +29,30 @@ public class ProductRepositoryTest {
   public void testSaveProduct() {
     Product smoothe = new Smoothe();
     smoothe.setDescription("Vanilla");
-    smoothe.setPrice(new BigDecimal("22.222222"));
+    smoothe.setPrice(new BigDecimal("33"));
     Product product = productRepository.save(smoothe);
+    
     assertEquals("Vanilla", product.getDescription());
     assertTrue(product instanceof Smoothe);
+    Product smo = productRepository.findByIdAndProductType(product.getId(), 1L);
+    assertTrue(smo instanceof Smoothe);
+    
+    assertEquals(1, productRepository.findByProductType(1L).size());
+    smoothe = new Smoothe();
+    smoothe.setDescription("Vanilla2");
+    smoothe.setPrice(new BigDecimal("22.22"));
+    productRepository.save(smoothe);
+    smoothe = new Smoothe();
+    smoothe.setDescription("Vanilla3");
+    smoothe.setPrice(new BigDecimal("22.22"));
+    productRepository.save(smoothe);
+    
+
+  
+    assertEquals(3, productRepository.findByProductType(1L).size());
+    assertEquals(2, productRepository.findByProductType(1L, PageRequest.of(0, 2)).getContent().size());
+    assertEquals(1, productRepository.findByProductType(1L, PageRequest.of(1, 2)).getContent().size());
+    
  
   }
   
