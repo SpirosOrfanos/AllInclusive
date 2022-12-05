@@ -1,4 +1,4 @@
-package com.productsenums;
+package com.products.enums;
 
 public enum ProductType {
   SMOOTHIES(1L)

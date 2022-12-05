@@ -1,12 +1,14 @@
 package com.products.dto;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 
 public class OrderItemDto implements Serializable {
 
   private Long productId;
   private String productDescription;
   private Long quantity;
+  private BigDecimal price;
   public Long getProductId() {
     return productId;
   }
@@ -24,6 +26,13 @@ public class OrderItemDto implements Serializable {
   }
   public void setQuantity(Long quantity) {
     this.quantity = quantity;
+  }
+  
+  public BigDecimal getPrice() {
+    return price;
+  }
+  public void setPrice(BigDecimal price) {
+    this.price = price;
   }
   @Override
   public String toString() {

@@ -80,33 +80,50 @@
 		</dependency>
 
 		<dependency>
-   <groupId>io.springfox</groupId>
-   <artifactId>springfox-boot-starter</artifactId>
-   <version>3.0.0</version>
-</dependency>
-<dependency>
-   <groupId>io.springfox</groupId>
-   <artifactId>springfox-swagger-ui</artifactId>
-   <version>3.0.0</version>
-</dependency>
-		<!--
-		<dependency>
 			<groupId>io.springfox</groupId>
-			<artifactId>springfox-swagger2</artifactId>
-			<version>${swagger.version}</version>
+			<artifactId>springfox-boot-starter</artifactId>
+			<version>3.0.0</version>
 		</dependency>
 		<dependency>
 			<groupId>io.springfox</groupId>
 			<artifactId>springfox-swagger-ui</artifactId>
-			<version>${swagger.version}</version>
+			<version>3.0.0</version>
 		</dependency>
-		-->
+
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-security</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-test</artifactId>
+			<scope>test</scope>
+			<exclusions>
+				<exclusion>
+					<groupId>org.junit.vintage</groupId>
+					<artifactId>junit-vintage-engine</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+
+		<dependency>
+			<groupId>io.jsonwebtoken</groupId>
+			<artifactId>jjwt</artifactId>
+			<version>0.9.1</version>
+		</dependency>
+
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
 		</dependency>
 
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-test</artifactId>
+			<scope>test</scope>
+		</dependency>
 		<dependency>
 			<groupId>org.mockito</groupId>
 			<artifactId>mockito-junit-jupiter</artifactId>
@@ -142,7 +159,10 @@
 					<excludes>
 						<exclude>com/products/annotations*</exclude>
 						<exclude>com/products/dto/*</exclude>
+						<exclude>com/products/config/*</exclude>
+						<exclude>com/products/exception/*</exclude>
 						<exclude>com/currency/domain/vo/*</exclude>
+						<exclude>com/currency/domain/enums/*</exclude>
 					</excludes>
 				</configuration>
 				<executions>

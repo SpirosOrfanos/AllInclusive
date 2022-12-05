@@ -1,4 +1,4 @@
-package com.products;
+package com.products.repository;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import java.math.BigDecimal;
@@ -18,8 +18,6 @@ import com.products.domain.Orders;
 import com.products.domain.Product;
 import com.products.domain.Smoothe;
 import com.products.domain.Status;
-import com.products.repository.OrderRepository;
-import com.products.repository.ProductRepository;
 
 @Tag("OrderRepositoryTest")
 @DataJpaTest
@@ -57,6 +55,7 @@ public class OrderRepositoryTest {
 
     Orders order = new Orders();
     order.setDatetime(new Date());
+    order.setUser(1L);
     order.setStatus(Status.PENDING);
     order.setOrderItems(new ArrayList<>());
     List<Product> products = StreamSupport.stream(productRepository.findAll().spliterator(), false)

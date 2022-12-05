@@ -19,11 +19,9 @@ import org.springframework.transaction.PlatformTransactionManager;
 
 @Configuration
 @EnableAutoConfiguration(
-    exclude = {
-        DataSourceAutoConfiguration.class,
-        HibernateJpaAutoConfiguration.class})
+    exclude = {DataSourceAutoConfiguration.class, HibernateJpaAutoConfiguration.class})
 @EnableJpaRepositories(basePackages = "com.products.repository",
-transactionManagerRef = "transactionManager")
+    transactionManagerRef = "transactionManager")
 public class JpaConfig {
   @Autowired
   private Environment env;
@@ -36,16 +34,11 @@ public class JpaConfig {
     String driverClass = env.getProperty("spring.datasource.driver-class-name");
     String url = env.getProperty("spring.datasource.url");
 
-    return DataSourceBuilder
-        .create()
-        .username(username)
-        .password(password)
-        .url(url)
-        .driverClassName(driverClass)
-        .build();
+    return DataSourceBuilder.create().username(username).password(password).url(url)
+        .driverClassName(driverClass).build();
   }
 
-  @Bean(name="transactionManager")
+  @Bean(name = "transactionManager")
   public PlatformTransactionManager transactionManager() {
     JpaTransactionManager transactionManager = new JpaTransactionManager();
     transactionManager.setEntityManagerFactory(entityManagerFactory().getObject());
@@ -69,13 +62,13 @@ public class JpaConfig {
 
     return entityManagerFactoryBean;
   }
-  
+
   private Properties addProperties() {
     Properties properties = new Properties();
-    properties.setProperty("hibernate.dialect", 
+    properties.setProperty("hibernate.dialect",
         env.getProperty("spring.jpa.properties.hibernate.dialect"));
 
     return properties;
-}
+  }
 
 }

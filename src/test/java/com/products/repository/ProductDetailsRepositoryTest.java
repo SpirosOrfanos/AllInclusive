@@ -1,4 +1,4 @@
-package com.products;
+package com.products.repository;
 
 import static org.junit.Assert.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertEquals;

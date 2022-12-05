@@ -1,4 +1,4 @@
-package com.productsenums;
+package com.products.enums;
 
 import org.springframework.http.HttpStatus;
 import com.products.dto.ApiError;
@@ -24,6 +24,12 @@ public enum ApiErrorEnum {
     }
   },
   BAD_REQUEST_EXCEPTION("Api response error",HttpStatus.BAD_REQUEST, "1-0004"){
+    @Override
+    public ApiError create() {
+      return new ApiError(this.getDesc(), this.getHttpCode(), this.getCode());
+    }
+  },
+  USER_ALREADY_EXISTS("Api response error",HttpStatus.CONFLICT, "1-0004"){
     @Override
     public ApiError create() {
       return new ApiError(this.getDesc(), this.getHttpCode(), this.getCode());

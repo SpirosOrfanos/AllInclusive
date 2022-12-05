@@ -5,7 +5,7 @@ import org.springframework.stereotype.Component;
 import com.products.enums.ProductType;
 
 @Component
-public class ProductTypeConverter implements Converter<String, ProductType> {
+public class RoleConverter implements Converter<String, ProductType> {
   @Override
   public ProductType convert(String source) {
     return ProductType.valueOf(source.toUpperCase());

@@ -8,6 +8,12 @@ drop table if exists shop.product CASCADE ;
 
 drop table if exists shop.product_details CASCADE ;
 
+drop table if exists shop.role;
+
+drop table if exists shop.user;
+
+drop table if exists shop.user_roles;
+
 CREATE SCHEMA shop ;
 
 create table shop.order_item (
@@ -21,6 +27,7 @@ PRIMARY KEY (id));
 
 create table shop.orders (
 id INT NOT NULL AUTO_INCREMENT, 
+user_id bigint NOT NULL, 
 order_dt DATETIME NOT NULL, 
 status INT NOT NULL, 
 primary key (id));
@@ -59,6 +66,24 @@ ADD CONSTRAINT FK_PRDT
   ON DELETE NO ACTION
   ON UPDATE NO ACTION;
 
+create TABLE shop.role (
+id bigint not null auto_increment, 
+description varchar(255), 
+name varchar(255), 
+primary key (id));
+
+create table shop.user_roles (
+user_id bigint not null, 
+role_id bigint not null, 
+primary key (user_id, role_id))
+;
+
+create TABLE shop.user (
+id bigint not null auto_increment, 
+username varchar(255), 
+password varchar(255), 
+primary key (id));
+
 INSERT INTO shop.product (product_type,description,price) VALUES (1,'Vanilla',15.50);
 INSERT INTO shop.product (product_type,description,price) VALUES (1,'Chocolate',11.50);
 INSERT INTO shop.product (product_type,description,price) VALUES (1,'Strawberry',12.50);
@@ -80,3 +105,14 @@ INSERT INTO shop.product_details(description,detail_info,product_id)VALUES('weig
 INSERT INTO shop.product_details(description,detail_info,product_id)VALUES('Color','Green',4);
 INSERT INTO shop.product_details(description,detail_info,product_id)VALUES('kCal','2000',4);
 INSERT INTO shop.product_details(description,detail_info,product_id)VALUES('weight','4000gr',4);
+
+INSERT INTO shop.role (id, description, name) VALUES (4, 'Business owner', 'BO');
+INSERT INTO shop.role (id, description, name) VALUES (5, 'User', 'USER');
+
+INSERT INTO shop.user (username,password) VALUES ('user1','$2a$10$cHiOF63WzqWNJqsKjMHa4u/aWP5wTqbBX/TwK9EU1Ol1aaQDv4MxO');
+INSERT INTO shop.user (username,password) VALUES ('user2','$2a$10$cHiOF63WzqWNJqsKjMHa4u/aWP5wTqbBX/TwK9EU1Ol1aaQDv4MxO');
+INSERT INTO shop.user (username,password) VALUES ('bo1','$2a$10$cHiOF63WzqWNJqsKjMHa4u/aWP5wTqbBX/TwK9EU1Ol1aaQDv4MxO');
+
+INSERT INTO shop.user_roles (user_id,role_id) VALUES ((select id from shop.user where username='user1'),5);
+INSERT INTO shop.user_roles (user_id,role_id) VALUES ((select id from shop.user where username='user2'),5);
+INSERT INTO shop.user_roles (user_id,role_id) VALUES ((select id from shop.user where username='bo1'),4);

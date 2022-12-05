@@ -109,6 +109,105 @@ You should see a histogram graph and some recent log entries:
 
 * Exception handling
 
+* Validations
+
 * caching strategy
 
+* Encypt passwords
+
 * API calls safeguard with anither tool like keycloak
+
+
+## SAMPLES
+
+### authenticate
+```
+curl --request POST \
+  --url http://localhost:9090/api/authenticate \
+  --header 'Content-Type: application/json' \
+  --data '{
+
+			"username": "user1",
+			"password": "pass"
+}'
+```
+> BO LOGIN
+
+```
+curl --request POST \
+  --url http://localhost:9090/api/authenticate \
+  --header 'Content-Type: application/json' \
+  --data '{
+
+			"username": "bo1",
+			"password": "pass"
+}'
+```
+### Create user
+```
+curl --request POST \
+  --url http://localhost:9090/api/authenticate \
+  --header 'Content-Type: application/json' \
+  --data '{
+
+			"username": "user2221",
+			"password": "pass"
+}'
+```
+#### For the following use token from authenticate sample
+
+### Delete details
+```
+curl --request DELETE \
+  --url http://localhost:9090/api/product/1/details/2 \
+  --header 'Authorization: Bearer  XXXXXXX' 
+```
+### Alter details
+```
+curl --request PATCH \
+  --url http://localhost:9090/api/product/1/details/3 \
+   --header 'Authorization: Bearer  XXXXXXX' \
+  --header 'Content-Type: application/json' \
+  --data '{ 
+"description" : "description new",
+"detaiInfo"  :"detaiInfo new22"
+}'
+```
+### Get products
+```
+curl --request GET \
+  --url 'http://localhost:9090/api/product/SMOOTHIES' \
+  --header 'Authorization: Bearer  XXXXXXX' 
+```
+### Get product details
+```
+curl --request GET \
+  --url http://localhost:9090/api/product/1/details \
+  --header 'Authorization: Bearer  XXXXXXX' 
+```
+### Create order
+
+```
+curl --request POST \
+  --url http://localhost:9090/api/order \
+  --header 'Content-Type: application/json' \
+  --header 'Authorization: Bearer  XXXXXXX' \
+ --data '{
+	"orderItemDtos": [
+		{
+			"productId": 1,
+			"productDescription": "222",
+			"quantity": 2,
+			"price" : 11
+		},
+		{
+			"productId": 122,
+			"productDescription": "a2",
+			"quantity": 12,
+			"price" : 33
+		}
+	]
+}'
+```
+
+

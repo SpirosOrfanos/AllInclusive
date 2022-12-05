@@ -23,7 +23,7 @@ public class Orders {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
 
-  @Column(name = "order_dt")
+  @Column(name = "order_dt", nullable = false)
   @Temporal(TemporalType.DATE)
   private java.util.Date datetime;
 
@@ -32,6 +32,9 @@ public class Orders {
 
   @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true)
   private List<OrderItem> orderItems;
+  
+  @Column(name = "user_id", nullable = false)
+  private Long user;
 
   public Long getId() {
     return id;
@@ -65,6 +68,14 @@ public class Orders {
     this.status = status;
   }
 
+  public Long getUser() {
+    return user;
+  }
+
+  public void setUser(Long user) {
+    this.user = user;
+  }
+
   @Override
   public int hashCode() {
     return Objects.hash(id);
@@ -87,6 +98,8 @@ public class Orders {
     StringBuilder builder = new StringBuilder();
     builder.append("Order [id=");
     builder.append(id);
+    builder.append(", user=");
+    builder.append(user);
     builder.append(", datetime=");
     builder.append(datetime);
     builder.append(", status=");
