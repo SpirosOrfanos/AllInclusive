@@ -115,8 +115,7 @@ You should see a histogram graph and some recent log entries:
 
 * Encypt passwords
 
-* API calls safeguard with anither tool like keycloak or https://casbin.org/ :)
-
+* API calls safeguard with anither tool like keycloak or an RBAC fmw
 
 ## SAMPLES
 
