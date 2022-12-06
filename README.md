@@ -24,7 +24,8 @@ Sited there you will find the [Jacoco](https://www.eclemma.org/jacoco/) code cov
 
 ### Tools and frameworks of solution
 
-* Spring boot : a simple app that collects money exchange rates
+* Spring boot : a simple app for crud 
+
 
 * Redis : Used for caching retrieved money rates results 
 
