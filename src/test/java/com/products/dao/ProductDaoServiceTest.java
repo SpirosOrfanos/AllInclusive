@@ -20,7 +20,7 @@ import com.products.service.dao.ProductDaoService;
 
 @Tag("ProductDaoServiceTest")
 @SpringBootTest
-public class ProductDaoServiceTest {
+class ProductDaoServiceTest {
 
   private ProductRepository productRepository;
   private ProductDaoService productDaoService;
@@ -32,7 +32,7 @@ public class ProductDaoServiceTest {
   }
   
   
-  public void testGet() {
+  void testGet() {
     Product prod = new Product();
     prod.setDescription("des1");
     prod.setId(1L);
@@ -52,27 +52,27 @@ public class ProductDaoServiceTest {
   }
   
   @Test
-  public void testSave() {
+  void testSave() {
     assertThrows(ActionNotSupportedException.class, () -> productDaoService.save(new Product()));
   }
   
   @Test
-  public void testDelete() {
+  void testDelete() {
     assertThrows(ActionNotSupportedException.class, () -> productDaoService.delete(1L));
   }
   
   @Test
-  public void testUpdate() {
+  void testUpdate() {
     assertThrows(ActionNotSupportedException.class, () -> productDaoService.update(new Product()));
   }
   
   @Test
-  public void testGetAll() {
+  void testGetAll() {
     assertThrows(ActionNotSupportedException.class, () -> productDaoService.getAll());
   }
   
   @Test
-  public void testGetPaginated() {
+  void testGetPaginated() {
     assertThrows(ActionNotSupportedException.class, () -> productDaoService.getPaginated(PageRequest.of(0, 1)));
   }
 }

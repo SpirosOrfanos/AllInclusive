@@ -21,7 +21,7 @@ import com.products.domain.Status;
 
 @Tag("OrderRepositoryTest")
 @DataJpaTest
-public class OrderRepositoryTest {
+class OrderRepositoryTest {
 
   @Qualifier("productRepository")
   @Autowired
@@ -51,7 +51,7 @@ public class OrderRepositoryTest {
   }
 
   @Test
-  public void createOrder() {
+  void createOrder() {
 
     Orders order = new Orders();
     order.setDatetime(new Date());

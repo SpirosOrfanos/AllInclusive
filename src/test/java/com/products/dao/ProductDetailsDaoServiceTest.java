@@ -18,7 +18,7 @@ import com.products.service.dao.ProductDetailsDaoService;
 
 @Tag("ProductDetailsDaoServiceTest")
 @SpringBootTest
-public class ProductDetailsDaoServiceTest {
+class ProductDetailsDaoServiceTest {
 
   private ProductDetailsRepository productDetailsRepository;
   private ProductDetailsDaoService productDetailsDaoService;
@@ -38,7 +38,7 @@ public class ProductDetailsDaoServiceTest {
   }
 
   @Test
-  public void save() {
+  void save() {
     when(productDetailsRepository.save(productDetailsSave)).thenReturn(productDetails);
     assertEquals(1, productDetailsDaoService.save(productDetailsSave).getId());
   }
@@ -46,13 +46,13 @@ public class ProductDetailsDaoServiceTest {
 
 
   @Test
-  public void getPaginated() {
+  void getPaginated() {
     when(productDetailsRepository.findAll()).thenReturn(List.of(productDetails));
     assertEquals(1, productDetailsDaoService.getPaginated(PageRequest.of(1, 2)).get(0).getId());
   }
   
   @Test
-  public void get() {
+  void get() {
     
     when(productDetailsRepository.findById(1L))
     .thenReturn(Optional.of(productDetails));
@@ -63,7 +63,7 @@ public class ProductDetailsDaoServiceTest {
   }
   
   @Test
-  public void getAll() {
+  void getAll() {
     when(productDetailsRepository.getAllForProduct(1L))
     .thenReturn(List.of(productDetails));
     assertEquals(1, productDetailsDaoService.getAll(1L).size());

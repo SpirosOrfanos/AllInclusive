@@ -19,7 +19,7 @@ import com.products.service.dao.OrderDaoService;
 
 @Tag("OrderDaoServiceTest")
 @SpringBootTest
-public class OrderDaoServiceTest {
+class OrderDaoServiceTest {
   
   private OrderRepository orderRepository;
   private OrderDaoService orderDaoService;
@@ -32,7 +32,7 @@ public class OrderDaoServiceTest {
   }
   
   @Test
-  public void getTest() {
+  void getTest() {
     Orders order = new Orders();
     order.setId(1L);
     order.setStatus(Status.COMPLETED);
