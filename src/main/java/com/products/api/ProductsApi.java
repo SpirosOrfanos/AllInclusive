@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import com.products.annotations.AllAuth;
+import com.products.annotations.OnlyBoAuth;
 import com.products.dto.ProductDetailsDto;
 import com.products.dto.ProductResponseDto;
 import com.products.enums.ProductType;
@@ -28,7 +30,7 @@ public class ProductsApi {
   @Autowired
   private ProductService productService;
 
-  @PreAuthorize("hasRole('BO') || hasRole('USER')")
+  @AllAuth
   @GetMapping(value = {"/product/{productType}"}, path = {"/product/{productType}"},
       produces = MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<ProductResponseDto> getProducts(
@@ -41,7 +43,7 @@ public class ProductsApi {
     return ResponseEntity.status(HttpStatus.OK).contentType(MediaType.APPLICATION_JSON).body(res);
   }
 
-  @PreAuthorize("hasRole('BO') || hasRole('USER')")
+  @AllAuth
   @GetMapping(value = {"/product/{id}/details"}, path = {"/product/{id}/details"},
       produces = MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity getProductDetails(
@@ -50,7 +52,7 @@ public class ProductsApi {
         .body(productService.getProductDetails(id));
   }
 
-  @PreAuthorize("hasRole('BO')")
+  @OnlyBoAuth
   @DeleteMapping(value = {"/product/{id}/details/{did}"}, path = {"/product/{id}/details/{did}"})
   public ResponseEntity deleteProductDetails(
       @PathVariable(name = "id", value = "id", required = true) Long id,
@@ -59,7 +61,7 @@ public class ProductsApi {
     return ResponseEntity.status(HttpStatus.ACCEPTED).build();
   }
 
-  @PreAuthorize("hasRole('BO')")
+  @OnlyBoAuth
   @PatchMapping(value = {"/product/{id}/details/{did}"}, path = {"/product/{id}/details/{did}"})
   public ResponseEntity updateProductDetails(
       @PathVariable(name = "id", value = "id", required = true) Long id,

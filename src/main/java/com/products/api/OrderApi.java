@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import com.products.annotations.OnlyUserAuth;
 import com.products.dto.OrderDto;
 import com.products.service.OrderService;
 
@@ -21,7 +22,7 @@ public class OrderApi {
   private OrderService orderService;
 
 
-  @PreAuthorize("hasRole('USER')")
+  @OnlyUserAuth
   @PostMapping(value = {"/order"}, path = {"/order"})
   public ResponseEntity<Long> createOrder(@RequestBody OrderDto order) {
     return ResponseEntity.status(HttpStatus.CREATED).body(orderService.save(order));
