@@ -50,7 +50,7 @@ In case you need to test to another MySql DB check create.sql under db folder.
 
 ### How to build
 
-1) cd  to MoneyExchange
+1) cd  to project root folder
 
 ```
 mvn clean package
