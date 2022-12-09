@@ -26,6 +26,7 @@ Sited there you will find the [Jacoco](https://www.eclemma.org/jacoco/) code cov
 
 * Spring boot : a simple app for crud 
 
+* Kafka, Kafka-connect, Debezium
 
 * Redis : Used for caching retrieved money rates results 
 
