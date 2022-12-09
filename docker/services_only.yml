@@ -1,5 +1,16 @@
 version: '3.8'
 
+# https://debezium.io/documentation/reference/stable/tutorial.html
+
+# docker inspect container_name
+
+# docker run -it --rm --name watcher --network docker_test_net --link zookeeper:zookeeper --link kafka:kafka quay.io/debezium/kafka:2.0 watch-topic 
+# -a -k dbserver11.shop.user
+
+# docker exec -it kafka /kafka/bin/kafka-topics.sh  --bootstrap-server kafka:9092 --list
+
+# watch docker exec -it  kafka /kafka/bin/kafka-console-consumer.sh  --bootstrap-server kafka:9092  --topic dbserver11.shop.user
+
 networks:
     test_net:
         driver: bridge
@@ -8,10 +19,22 @@ services:
 # Mysql
   db:
     image: mysql:8.0
+    container_name: db
+    command: --log-bin=mysql-bin
+      --max-binlog-size=4096
+      --binlog-format=ROW
+      --sync-binlog=1
+      --log-slave-updates=ON
+      --max-connections=1000
+      --gtid-mode=ON
+      --character-set-server=utf8mb4
+      --enforce-gtid-consistency=ON
+      --read-only=OFF
+      --binlog-rows-query-log-events=ON
     cap_add:
       - SYS_NICE
     environment:
-      - MYSQL_DATABASE=dating
+      - MYSQL_DATABASE=shop
       - MYSQL_ROOT_PASSWORD=root
     ports:
       - '3306:3306'
@@ -23,6 +46,7 @@ services:
 # Redis
   redis:
     image: docker.io/bitnami/redis:6.2
+    container_name: redis
     environment:
       - ALLOW_EMPTY_PASSWORD=yes
       - REDIS_DISABLE_COMMANDS=FLUSHDB,FLUSHALL
@@ -32,7 +56,56 @@ services:
       - 'redis_data:/bitnami/redis/data'
     networks:
       - test_net
-      
+
+# Zookeper
+  zookeeper:
+    image: quay.io/debezium/zookeeper:2.0
+    container_name: zookeeper
+    networks:
+      - test_net
+    ports:
+      - 2181:2181
+      - 2888:2888
+      - 3888:3888
+
+#Kafka
+  kafka:
+    image: quay.io/debezium/kafka:2.0
+    container_name: kafka
+    networks:
+      - test_net
+    depends_on:
+       - zookeeper
+    environment:
+       - ZOOKEEPER_CONNECT=zookeeper:2181
+       - KAFKA_GROUP_MIN_SESSION_TIMEOUT_MS=100
+       - ADVERTISED_HOST_NAME=kafka
+    ports:
+      - 9092:9092
+    links:
+       - zookeeper:zookeeper  
+
+# kafka-connect
+  connect:
+    image: quay.io/debezium/connect:2.0
+    container_name: connect
+    networks:
+      - test_net
+    depends_on:
+       - kafka
+       - db
+    environment:
+       - BOOTSTRAP_SERVERS=kafka:9092
+       - GROUP_ID=1
+       - CONFIG_STORAGE_TOPIC=my_connect_configs
+       - OFFSET_STORAGE_TOPIC=my_connect_offsets
+       - STATUS_STORAGE_TOPIC=my_connect_statuses
+    ports:
+      - 8083:8083
+    links:
+       - db:db
+       - kafka:kafka
+            
 volumes:
    redis_data:
       driver: local   

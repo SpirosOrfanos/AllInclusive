@@ -117,6 +117,72 @@ You should see a histogram graph and some recent log entries:
 
 * API calls safeguard with anither tool like keycloak or an RBAC fmw
 
+## Debezium 
+
+We incorporate debezium with kafka and kafka-connect for outbox pattern
+
+### check the status of the Kafka Connect service
+```
+curl --request GET \
+  --url http://localhost:8083/ \
+  --header 'Accept: application/json' 
+```
+
+### check available connectors
+```
+curl --request GET \
+  --url http://localhost:8083/connectors/ \
+  --header 'Accept: application/json'
+```
+
+### check connector state
+```
+curl --request GET \
+  --url http://localhost:8083/connectors/{CONNECTOR_NAME}
+  --header 'Accept: application/json' ]
+```
+
+### delete connector
+```
+curl --request DELETE \
+  --url http://localhost:8083/connectors/shop-connector3 \
+  --header 'Accept: application/json' 
+```
+
+### How to create new connector
+```
+curl --request POST \
+  --url http://localhost:8083/connectors/ \
+  --header 'Accept: application/json' \
+  --header 'Content-Type: application/json' \
+  --data '{
+  "name": "shop-connector3",  
+  "config": {  
+    "connector.class": "io.debezium.connector.mysql.MySqlConnector",
+    "tasks.max": "1",  
+    "database.hostname": "db",  
+    "database.port": "3306",
+    "database.user": "root",
+    "database.password": "root",
+    "database.server.id": "112233",  
+    "topic.prefix": "dbserver11",  
+		"database.allowPublicKeyRetrieval":"true",
+    "database.include.list": "shop",  
+		"table.whitelist": "shop.user",
+    "schema.history.internal.kafka.bootstrap.servers": "kafka:9092",  
+    "schema.history.internal.kafka.topic": "schema-changes.shop"  
+  }
+}'
+```
+### List topics
+```
+docker exec -it kafka /kafka/bin/kafka-topics.sh  --bootstrap-server kafka:9092 --list
+```
+### Watch topic
+```
+docker exec -it  kafka /kafka/bin/kafka-console-consumer.sh  --bootstrap-server kafka:9092  --topic {TOPIC_NAME}
+```
+
 ## SAMPLES
 
 ### authenticate

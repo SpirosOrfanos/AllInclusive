@@ -1,0 +1,43 @@
+version: '3.8'
+
+
+
+networks:
+    deb_net:
+        driver: bridge
+        
+services:
+
+# docker run -it --rm 
+# --name zookeeper -p 2181:2181 -p 2888:2888 -p 3888:3888 
+# quay.io/debezium/zookeeper:2.0
+# Zookeper
+  zookeeper:
+    image: quay.io/debezium/zookeeper:2.0
+    container_name: zookeeper
+    networks:
+      - deb_net
+    ports:
+      - 2181:2181
+      - 2888:2888
+      - 3888:3888
+
+# docker run -it --rm 
+# --name kafka -p 9092:9092 
+# --link zookeeper:zookeeper 
+# quay.io/debezium/kafka:2.0
+#Kafka
+  kafka:
+    image: quay.io/debezium/kafka:2.0
+    container_name: kafka
+    networks:
+      - deb_net
+    depends_on:
+       - zookeeper
+    environment:
+       - ZOOKEEPER_CONNECT=zookeeper:2181
+       - KAFKA_GROUP_MIN_SESSION_TIMEOUT_MS=100
+    ports:
+      - 9092:9092
+    links:
+       - zookeeper:zookeeper 

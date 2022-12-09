@@ -51,6 +51,7 @@ services:
 # Redis
   redis:
     image: docker.io/bitnami/redis:6.2
+    container_name: redis
     environment:
       - ALLOW_EMPTY_PASSWORD=yes
       - REDIS_DISABLE_COMMANDS=FLUSHDB,FLUSHALL
@@ -71,6 +72,56 @@ services:
       - 24224:24224
     networks:
       - test_net
+
+# Zookeper
+  zookeeper:
+    image: quay.io/debezium/zookeeper:2.0
+    container_name: zookeeper
+    networks:
+      - test_net
+    ports:
+      - 2181:2181
+      - 2888:2888
+      - 3888:3888
+
+#Kafka
+  kafka:
+    image: quay.io/debezium/kafka:2.0
+    container_name: kafka
+    networks:
+      - test_net
+    depends_on:
+       - zookeeper
+    environment:
+       - ZOOKEEPER_CONNECT=zookeeper:2181
+       - KAFKA_GROUP_MIN_SESSION_TIMEOUT_MS=100
+    ports:
+      - 9092:9092
+    links:
+       - zookeeper:zookeeper  
+
+# kafka-connect
+  connect:
+    image: quay.io/debezium/connect:2.0
+    container_name: connect
+    networks:
+      - test_net
+    depends_on:
+       - kafka
+       - db
+    environment:
+       - BOOTSTRAP_SERVERS=kafka:9092
+       - GROUP_ID=1
+       - CONFIG_STORAGE_TOPIC=my_connect_configs
+       - OFFSET_STORAGE_TOPIC=my_connect_offsets
+       - STATUS_STORAGE_TOPIC=my_connect_statuses
+    ports:
+      - 8083:8083
+    links:
+       - db:db
+       - kafka:kafka
+
+
 volumes:
    redis_data:
       driver: local   
